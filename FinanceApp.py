@@ -31,7 +31,7 @@ def createTransaction():
         session = Session()
         
         # create a new transaction and enter it into the database
-        new_transaction = Finance(transation_name = input_data["transation_name"], amount_spent = input_data["amount_spent"])
+        new_transaction = Finance(transaction_name = input_data["transaction_name"], product_details = input_data["product_details"], amount_spent = input_data["amount_spent"])
         session.add(new_transaction)
         session.commit()
         session.close()
