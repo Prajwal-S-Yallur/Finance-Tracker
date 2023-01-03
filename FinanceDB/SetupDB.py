@@ -17,7 +17,7 @@ class Finance(Base):
     # transaction_date_time = Column(DateTime(timezone=True), default=pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()), nullable=False)
     transaction_name = Column(String(250), nullable=False)
     product_details = Column(String(250), nullable=False)
-    product_seller = Column(String(250), nullable=False)
+    # product_seller = Column(String(250), nullable=False)
     # expenditure_category = Column(String(250), nullable=False)
     # expenditure_sub_category = Column(String(250), nullable=False)
     amount_spent = Column(Float, nullable=False)
