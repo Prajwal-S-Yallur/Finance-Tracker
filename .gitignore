@@ -1,2 +1,2 @@
 # Ignoring databases
-*.db
+/FinanceDB/*.db
