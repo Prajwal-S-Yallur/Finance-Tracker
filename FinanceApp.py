@@ -1,6 +1,8 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
+import datetime
+
 # Import from your custom module
 from FinanceDB.SetupDB import Finance
 
@@ -31,7 +33,7 @@ def createTransaction():
         session = Session()
         
         # create a new transaction and enter it into the database
-        new_transaction = Finance(transaction_name = input_data["transaction_name"], product_details = input_data["product_details"], product_seller = input_data["product_seller"], amount_spent = input_data["amount_spent"])
+        new_transaction = Finance(transaction_date_time = datetime.datetime.strptime(input_data["transaction_date_time"], '%Y-%m-%dT%H:%M'), transaction_name = input_data["transaction_name"], product_details = input_data["product_details"], product_seller = input_data["product_seller"], amount_spent = input_data["amount_spent"])
         session.add(new_transaction)
         session.commit()
         session.close()
