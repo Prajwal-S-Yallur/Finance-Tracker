@@ -1,0 +1,3 @@
+# Ignoring databases
+/FinanceDB/*.db
+/FinanceDB/__pycache__
