@@ -8,6 +8,7 @@
         <a href = "/transaction/{{ transaction.transaction_id }}"> {{ transaction.transaction_name }}> 
         </a>
         </th>
+        <td> {{ transaction.product_details }} </td>
         <td> {{ transaction.amount_spent }} </td>
       </tr>
     {% endfor %}
