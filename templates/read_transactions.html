@@ -2,13 +2,13 @@
 <html>
 <body>
   <table border = 1>
-    {% for movie in query %}
+    {% for transaction in query %}
       <tr>
         <th>
-        <a href = "/movie/{{ movie.transaction_id }}"> {{ movie.transaction_name }}> 
+        <a href = "/transaction/{{ transaction.transaction_id }}"> {{ transaction.transaction_name }}> 
         </a>
         </th>
-        <td> {{ movie.amount_spent }} </td>
+        <td> {{ transaction.amount_spent }} </td>
       </tr>
     {% endfor %}
   </table>
