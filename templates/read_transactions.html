@@ -7,6 +7,7 @@
             <th>Transaction ID</th>
             <th>Transaction Name</th>
             <th>Product Details</th>
+            <th>Product Seller</th>
             <th>Amount Spent</th>
         </tr>
         {% for transaction in query %}
@@ -14,6 +15,7 @@
             <td> <a href="/transaction/{{ transaction.transaction_id }}"> {{ transaction.transaction_id }}> </a> </td>
             <td> {{ transaction.transaction_name }} </td>
             <td> {{ transaction.product_details }} </td>
+            <td> {{ transaction.product_seller }} </td>
             <td> {{ transaction.amount_spent }} </td>
         </tr>
         {% endfor %}
