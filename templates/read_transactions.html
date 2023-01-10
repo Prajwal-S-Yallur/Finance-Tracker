@@ -4,6 +4,7 @@
 <body>
     <table border=1>
         <tr>
+            <th>Trnsaction Date & Time</th>
             <th>Transaction ID</th>
             <th>Transaction Name</th>
             <th>Product Details</th>
@@ -15,6 +16,7 @@
         {% for transaction in query %}
         <tr>
             <td> <a href="/transaction/{{ transaction.transaction_id }}"> {{ transaction.transaction_id }}> </a> </td>
+            <td> {{ transaction.transaction_date_time }} </td>
             <td> {{ transaction.transaction_name }} </td>
             <td> {{ transaction.product_details }} </td>
             <td> {{ transaction.product_seller }} </td>
