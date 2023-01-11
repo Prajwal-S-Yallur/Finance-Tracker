@@ -48,7 +48,7 @@ def createTransaction():
         session.add(new_transaction)
         session.commit()
         session.close()
-        return redirect(url_for("create_transaction"))
+        return redirect(url_for("read_transactions"))
 
     else:
         return redirect(url_for("create_transaction"))
@@ -56,7 +56,7 @@ def createTransaction():
 
 # Routing for simply reading the database (the 'R' in CRUD)
 @app.route("/read_transactions")
-def read():
+def read_transactions():
     
     # Start this page's session
     Session = sessionmaker(bind=engine)
