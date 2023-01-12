@@ -48,11 +48,26 @@ def createTransaction():
         session.add(new_transaction)
         session.commit()
         session.close()
-        return redirect(url_for("create_transaction"))
+        return redirect(url_for("read_transactions"))
 
     else:
         return redirect(url_for("create_transaction"))
 
+
+# Routing for simply reading the database (the 'R' in CRUD)
+@app.route("/read_transactions")
+def read_transactions():
+    
+    # Start this page's session
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    
+    # Query all results from the database
+    query = session.query(Finance).all()
+    
+    # render the template and pass the query into the html
+    return render_template("read_transactions.html", query = query)
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
