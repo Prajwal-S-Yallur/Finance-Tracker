@@ -14,9 +14,10 @@ engine = create_engine("sqlite:///FinanceDB//finance_database.db")
 app = Flask(__name__)
 
 
-@app.route("/finance")
-def create_transaction():
-    return render_template("create_transaction.html")
+@app.route("/")
+def on_start():
+    return redirect(url_for("read_transactions"))
+
 
 
 @app.route("/create_transaction", methods=["POST", "GET"])
@@ -51,11 +52,11 @@ def createTransaction():
         return redirect(url_for("read_transactions"))
 
     else:
-        return redirect(url_for("create_transaction"))
+        return render_template("create_transaction.html")
 
 
 # Routing for simply reading the database (the 'R' in CRUD)
-@app.route("/read_transactions")
+@app.route("/read_transactions", methods=["POST", "GET"])
 def read_transactions():
     
     # Start this page's session
