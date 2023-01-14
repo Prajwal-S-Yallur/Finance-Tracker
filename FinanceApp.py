@@ -15,8 +15,9 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def create_transaction():
-    return render_template("create_transaction.html")
+def on_start():
+    return redirect(url_for("read_transactions"))
+
 
 
 @app.route("/create_transaction", methods=["POST", "GET"])
@@ -51,7 +52,7 @@ def createTransaction():
         return redirect(url_for("read_transactions"))
 
     else:
-        return redirect(url_for("create_transaction"))
+        return render_template("create_transaction.html")
 
 
 # Routing for simply reading the database (the 'R' in CRUD)
