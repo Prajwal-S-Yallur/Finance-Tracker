@@ -29,8 +29,8 @@ class Finance(Base):
 
 
 # Connect to and create the movie table
-engine = create_engine("sqlite:///FinanceDB//finance_database.db")
-# engine = create_engine("sqlite:///movies_database.db")
+# engine = create_engine("sqlite:///FinanceDB//finance_database.db")
+engine = create_engine("sqlite:///Data Base//Production//finance_database.db")
 Base.metadata.create_all(engine)
 
 # # Start a session with the database
