@@ -1,0 +1,24 @@
+<html>
+<body>
+  <form action = "/editmovie/{{ query.transaction_id }}" method = "POST">
+    <label for="transaction_date_time">Trnsaction Date & Time:</label>
+    <input type="datetime-local" name="transaction_date_time" value="{{ query.transaction_date_time }}">
+    <label for="transaction_name">Transaction Name:</label>
+    <input type = "text" name = "transaction_name" value="{{ query.transaction_name }}">
+    <label for="product_details">Product Details:</label>
+    <input type = "text" name = "product_details" value="{{ query.product_details }}">
+    <label for="product_seller">Product Seller:</label>
+    <input type = "text" name = "product_seller" value="{{ query.product_seller }}">
+    <label for="expenditure_category">Expenditure Category:</label>
+    <input type = "text" name = "expenditure_category" value="{{ query.expenditure_category }}">
+    <label for="expenditure_sub_category">Expenditure Sub-Category:</label>
+    <input type = "text" name = "expenditure_sub_category" value="{{ query.expenditure_sub_category }}">
+    <label for="amount_spent">Amount Spent:</label>
+    <input type = "number" name = "amount_spent" value="{{ query.amount_spent }}"> 
+    <input type = "submit" value = "Update">
+  </form>
+  <form action = "/delete_transaction/{{ query.transaction_id }}" method = "POST">
+    <input type = "submit" value = "Delete">
+  </form>
+</body>
+</html>

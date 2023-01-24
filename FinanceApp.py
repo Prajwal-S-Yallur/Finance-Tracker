@@ -68,7 +68,47 @@ def read_transactions():
     
     # render the template and pass the query into the html
     return render_template("read_transactions.html", query = query)
+
+
+# Routing for editing a movie, including deletion (the 'U' and 'D' in CRUD)
+@app.route("/transaction/<movie_id>")
+def edit(movie_id):
     
+    # Start this page's session
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    
+    # Query the movie based on the id
+    query = session.query(Finance).filter(Finance.transaction_id == movie_id).one()    
+    
+    session.close()
+    
+    # Render the html with the query passed through it
+    return render_template("edit_transaction.html", query = query)
+
+
+# Routing for deleting a movie
+@app.route("/delete_transaction/<transaction_id>", methods = ["POST", "GET"])
+def deleteMovie(transaction_id):
+    if request.method == "POST":
+        
+        # A new session will have to be created in every function
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        
+        # Search for the movie to change based on the movie id
+        query = session.query(Finance).filter(Finance.transaction_id == transaction_id).one()
+        
+        # Delete the row
+        session.delete(query)
+        session.commit()
+        session.close()
+        
+        return redirect(url_for("read_transactions"))
+        
+    else:
+        return redirect(url_for("read_transactions"))
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
