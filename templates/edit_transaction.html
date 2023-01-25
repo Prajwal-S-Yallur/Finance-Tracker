@@ -1,6 +1,6 @@
 <html>
 <body>
-  <form action = "/editmovie/{{ query.transaction_id }}" method = "POST">
+  <form action = "/edit_transaction/{{ query.transaction_id }}" method = "POST">
     <label for="transaction_date_time">Trnsaction Date & Time:</label>
     <input type="datetime-local" name="transaction_date_time" value="{{ query.transaction_date_time }}">
     <label for="transaction_name">Transaction Name:</label>
