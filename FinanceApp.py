@@ -70,16 +70,16 @@ def read_transactions():
     return render_template("read_transactions.html", query = query)
 
 
-# Routing for editing a movie, including deletion (the 'U' and 'D' in CRUD)
-@app.route("/transaction/<movie_id>")
-def edit(movie_id):
+# Routing for editing a transaction, including deletion (the 'U' and 'D' in CRUD)
+@app.route("/transaction/<transaction_id>")
+def edit(transaction_id):
     
     # Start this page's session
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     
-    # Query the movie based on the id
-    query = session.query(Finance).filter(Finance.transaction_id == movie_id).one()    
+    # Query the transaction based on the id
+    query = session.query(Finance).filter(Finance.transaction_id == transaction_id).one()    
     
     session.close()
     
@@ -87,16 +87,47 @@ def edit(movie_id):
     return render_template("edit_transaction.html", query = query)
 
 
-# Routing for deleting a movie
+# Routing to actually update the transaction
+@app.route("/edit_transaction/<transaction_id>", methods = ["POST", "GET"])
+def edit_transaction(transaction_id):
+    
+    if request.method == "POST":
+        # Get the data from the form and placed into a variable. 
+        input_data = request.form
+        
+        # A new session will have to be created in every function
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        
+        # Search for the transaction to change based on the transaction id
+        query = session.query(Finance).filter(Finance.transaction_id == transaction_id).one()  
+        
+        # Write the changes to the database
+        query.transaction_date_time = datetime.datetime.strptime(input_data["transaction_date_time"], "%Y-%m-%dT%H:%M")  if input_data["transaction_date_time"] else query.transaction_date_time
+        query.transaction_name = input_data["transaction_name"]
+        query.product_details = input_data["product_details"]
+        query.product_seller = input_data["product_seller"]
+        query.expenditure_category = input_data["expenditure_category"]
+        query.expenditure_sub_category = input_data["expenditure_sub_category"]
+        query.amount_spent = input_data["amount_spent"]
+        session.commit()
+        session.close()
+        return redirect(url_for("read_transactions"))
+    
+    else:
+        return redirect(url_for("read_transactions"))
+
+
+# Routing for deleting a transaction
 @app.route("/delete_transaction/<transaction_id>", methods = ["POST", "GET"])
-def deleteMovie(transaction_id):
+def delete_transaction(transaction_id):
     if request.method == "POST":
         
         # A new session will have to be created in every function
         DBSession = sessionmaker(bind=engine)
         session = DBSession()
         
-        # Search for the movie to change based on the movie id
+        # Search for the transaction to change based on the transaction id
         query = session.query(Finance).filter(Finance.transaction_id == transaction_id).one()
         
         # Delete the row
