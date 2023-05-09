@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Get Target Branch of a Pull Request
-        if: $GITHUB_EVENT_NAME == 'pull_request'
+        if: ${{ GITHUB_EVENT_NAME == 'pull_request' }}
         run: echo "Target Branch is $GITHUB_BASE_REF"
 
       - name: Get Name of the Event that triggered the workflow
