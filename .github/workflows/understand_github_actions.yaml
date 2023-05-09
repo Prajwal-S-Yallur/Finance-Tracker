@@ -14,3 +14,7 @@ jobs:
 
       - name: Get Name of the Event that triggered the workflow
         run: echo "Tariggered Event is $GITHUB_EVENT_NAME"
+
+      - name: Run this only when Pull Request's target branch is 'dev' 
+       if: ${{ github.base_ref == 'dev' }}
+       run: echo "Tariggered Event is $GITHUB_EVENT_NAME and Target Branch is $GITHUB_BASE_REF"
