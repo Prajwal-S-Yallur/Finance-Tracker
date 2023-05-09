@@ -1,0 +1,12 @@
+name: To Understand GitHub Actions
+
+on: [push, pull_request]
+
+jobs:
+  testing_github_actions_functionality:
+    name: Understanding GitHub Actions Functionalities
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Target Branch of a Pull Request
+        run: echo ${{ vars.GITHUB_BASE_REF }}

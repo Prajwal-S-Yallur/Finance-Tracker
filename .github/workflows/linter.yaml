@@ -1,0 +1,9 @@
+name: GitHub Actions for Code Linting
+
+on: [push, pull_request]
+
+jobs:
+  check_python_code:
+    name: Check all python code.
+
+  
