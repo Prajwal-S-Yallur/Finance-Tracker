@@ -17,4 +17,4 @@ jobs:
 
       - name: Run this only when Pull Request's target branch is 'dev' 
         if: github.base_ref == 'dev'
-        run: echo "Tariggered Event is $GITHUB_EVENT_NAME and Target Branch is ${github.base_ref}"
+        run: echo "Tariggered Event is $GITHUB_EVENT_NAME and Target Branch is ${{ github.base_ref }}"
