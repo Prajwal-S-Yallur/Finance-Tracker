@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: Get Target Branch of a Pull Request
-        run: echo ${{ vars.GITHUB_BASE_REF }}
+        run: echo "Target Branch is $GITHUB_BASE_REF"
