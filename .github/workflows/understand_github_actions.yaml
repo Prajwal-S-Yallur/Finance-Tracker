@@ -1,0 +1,20 @@
+name: To Understand GitHub Actions
+
+on: [push, pull_request]
+
+jobs:
+  testing_github_actions_functionality:
+    name: Understanding GitHub Actions Functionalities
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Target Branch of a Pull Request
+        if: ${{ github.event.pull_request }}
+        run: echo "Target Branch is $GITHUB_BASE_REF"
+
+      - name: Get Name of the Event that triggered the workflow
+        run: echo "Tariggered Event is $GITHUB_EVENT_NAME"
+
+      - name: Run this only when Pull Request's target branch is 'dev' 
+        if: github.base_ref == 'dev'
+        run: echo "Tariggered Event is $GITHUB_EVENT_NAME and Target Branch is ${{ github.base_ref }}"
