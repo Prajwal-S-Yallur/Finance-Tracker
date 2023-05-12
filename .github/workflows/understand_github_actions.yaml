@@ -20,5 +20,5 @@ jobs:
         run: echo "Tariggered Event is $GITHUB_EVENT_NAME and Target Branch is ${{ github.base_ref }}"
 
       - name: Get Branch name for which the code is pushed
-        if: ${{ github.event.push }}
+        if: github.event_name == 'push'
         run: echo "Target Branch is $GITHUB_REF"
