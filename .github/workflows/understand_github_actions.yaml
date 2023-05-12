@@ -25,5 +25,6 @@ jobs:
 
       - name: Set Environment variable
         if: github.event_name == 'push'
+        run: echo "My first name is $First_Name"
         env: 
           First_Name: Prajwal
