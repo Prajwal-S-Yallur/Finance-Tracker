@@ -22,3 +22,8 @@ jobs:
       - name: Get Branch name for which the code is pushed
         if: github.event_name == 'push'
         run: echo "Target Branch is $GITHUB_REF"
+
+      - name: Set Environment variable
+        if: github.event_name == 'push'
+        env: 
+          Name: Prajwal
