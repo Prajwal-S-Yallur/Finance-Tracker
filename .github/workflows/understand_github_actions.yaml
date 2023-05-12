@@ -30,6 +30,6 @@ jobs:
           First_Name: Prajwal
 
       - name: Check reference branch for Push Event
-        if: ${{ github.ref == 'refs/heads/PFT-3-setup-git-hub-actions' }}
+        if: github.ref == 'refs/heads/PFT-3-setup-git-hub-actions'
         if: github.event_name == 'push'
         run: echo "The branch is ${{ github.ref }} and the event is ${{ github.event_name }}"
