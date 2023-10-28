@@ -1,36 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/read_transactions.css') }}">
+</head>
 
 <body>
-    <table border=1>
-        <tr>
-            <th>Trnsaction Date & Time</th>
-            <th>Transaction ID</th>
-            <th>Transaction Name</th>
-            <th>Product Details</th>
-            <th>Product Seller</th>
-            <th>Expenditure Category</th>
-            <th>Expenditure Sub-Category</th>
-            <th>Amount Spent</th>
-        </tr>
-        {% for transaction in query %}
-        <tr>
-            <td> <a href="/transaction/{{ transaction.transaction_id }}"> {{ transaction.transaction_id }}> </a> </td>
-            <td> {{ transaction.transaction_date_time }} </td>
-            <td> {{ transaction.transaction_name }} </td>
-            <td> {{ transaction.product_details }} </td>
-            <td> {{ transaction.product_seller }} </td>
-            <td> {{ transaction.expenditure_category }} </td>
-            <td> {{ transaction.expenditure_sub_category }} </td>
-            <td> {{ transaction.amount_spent }} </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href="/create_transaction">
-        <button>
-            Create New Transaction
-        </button>
-    </a>
+        <table border="1">
+            <tr>
+                <th>Transaction Date & Time</th>
+                <th>Transaction ID</th>
+                <th>Transaction Name</th>
+                <th>Product Details</th>
+                <th>Product Seller</th>
+                <th>Expenditure Category</th>
+                <th>Expenditure Sub-Category</th>
+                <th>Amount Spent</th>
+            </tr>
+            {% for transaction in query %}
+            <tr>
+                <td><a href="/transaction/{{ transaction.transaction_id }}">{{ transaction.transaction_id }}</a></td>
+                <td>{{ transaction.transaction_date_time }}</td>
+                <td>{{ transaction.transaction_name }}</td>
+                <td>{{ transaction.product_details }}</td>
+                <td>{{ transaction.product_seller }}</td>
+                <td>{{ transaction.expenditure_category }}</td>
+                <td>{{ transaction.expenditure_sub_category }}</td>
+                <td>{{ transaction.amount_spent }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="/create_transaction">
+            <button>Create New Transaction</button>
+        </a>
 </body>
 
 </html>
