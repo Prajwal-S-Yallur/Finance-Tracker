@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from FinanceDB.SetupDB import Finance
 
 # Connect to the database
-engine = create_engine("sqlite:///FinanceDB//finance_database.db")
+engine = create_engine("sqlite:///..//Data Base//Test//finance_database.db")
 
 # Initialize Flask
 app = Flask(__name__)
