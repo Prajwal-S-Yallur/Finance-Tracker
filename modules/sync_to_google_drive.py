@@ -10,10 +10,10 @@ def authenticate_with_google_drive(json_keyfile_path, scopes):
     return drive_service
 
 
-def upload_to_google_drive(local_file_path, folder_id, drive_service):
+def upload_to_google_drive(local_file_path, folder_id, new_file_name, drive_service):
     media_body = MediaFileUpload(local_file_path, resumable=True)
     file_metadata = {
-        'name': 'YourFile_6.db',
+        'name': f'{new_file_name}.db',
         'parents': [folder_id]
     }
 
@@ -22,7 +22,7 @@ def upload_to_google_drive(local_file_path, folder_id, drive_service):
         media_body=media_body
     ).execute()
 
-    print(file_result)
+    return file_result
 
 
 def create_folder(drive_service, folder_name, parent_folder_id=None):
