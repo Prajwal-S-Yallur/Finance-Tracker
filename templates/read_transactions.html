@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/read_transactions.css') }}">
 </head>
 
+
 <body>
         <table border="1">
             <tr>
@@ -33,6 +34,21 @@
         <a href="/create_transaction">
             <button>Create New Transaction</button>
         </a>
+
+        <a href="/update_cloud_database">
+            <button>Update Cloud Database</button>
+        </a>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
 </body>
 
 </html>
