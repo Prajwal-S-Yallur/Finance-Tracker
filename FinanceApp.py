@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # Import from your custom module
 # from FinanceDB.SetupDB import Finance
-from modules.sync_to_google_drive import upload_to_google_drive, create_folder
+from modules.sync_to_google_drive import authenticate_with_google_drive, upload_to_google_drive, create_folder
 from modules.SetupDB import Finance
 from modules.SetupDB import create_new_database
 from modules.update_json_file import get_json_file_content, save_to_json_file
@@ -179,8 +179,9 @@ def update_cloud_database(is_empthy=False):
 
     backup_file_name = f'{pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()) :%Y-%m-%d %H:%M:%S}'
     # new_file_name = str(pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()))
-    response = upload_to_google_drive(folder_ids['production']['id'], year_month, file_id)
-    upload_to_google_drive(folder_ids['backup']['id'], backup_file_name)
+    drive_service = authenticate_with_google_drive()
+    response = upload_to_google_drive(drive_service, folder_ids['production']['id'], year_month, file_id)
+    upload_to_google_drive(drive_service, folder_ids['backup']['id'], backup_file_name)
 
     flash("Upload Sucessfull!")
     flash(f"Uploaded file details: {response}")
