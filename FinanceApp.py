@@ -7,13 +7,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # Import from your custom module
 # from FinanceDB.SetupDB import Finance
-from modules.sync_to_google_drive import upload_to_google_drive, authenticate_with_google_drive
+from modules.sync_to_google_drive import upload_to_google_drive, create_folder
 from modules.SetupDB import Finance
 from modules.SetupDB import create_new_database
 from modules.update_json_file import get_json_file_content, save_to_json_file
+from modules.config import year_month, parent_folder_id
 
 # Connect to the database
-engine = create_engine("sqlite:///..//Data Base//Test//finance_database.db")
+engine = create_engine("sqlite:///..//Data Base//Proudction//finance_database.db")
 
 # Initialize Flask
 app = Flask(__name__)
@@ -39,17 +40,17 @@ def createTransaction():
 
         # create a new transaction and enter it into the database
         new_transaction = Finance(
-            transaction_date_time=datetime.datetime.strptime(
+            transaction_date_time = datetime.datetime.strptime(
                 input_data["transaction_date_time"], "%Y-%m-%dT%H:%M"
             )
             if input_data["transaction_date_time"]
             else pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()),
-            transaction_name=input_data["transaction_name"],
-            product_details=input_data["product_details"],
-            product_seller=input_data["product_seller"],
-            expenditure_category=input_data["expenditure_category"],
-            expenditure_sub_category=input_data["expenditure_sub_category"],
-            amount_spent=input_data["amount_spent"],
+            transaction_name = input_data["transaction_name"],
+            product_details = input_data["product_details"],
+            product_seller = input_data["product_seller"],
+            expenditure_category = input_data["expenditure_category"],
+            expenditure_sub_category = input_data["expenditure_sub_category"],
+            amount_spent = input_data["amount_spent"],
         )
 
         session.add(new_transaction)
@@ -158,25 +159,25 @@ def delete_transaction(transaction_id):
 
 @app.route("/update_cloud_database", methods=["POST", "GET"])
 def update_cloud_database(is_empthy=False):
-    
-    json_keyfile_path = "GCP_Service_Account_Key_my_third_account.json"
-    local_file_path = "../Data Base/Test/finance_database.db"
-    # folder_id = "https://drive.google.com/drive/folders/1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
-    folder_id = "1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
-    scopes = ['https://www.googleapis.com/auth/drive']
-    new_folder_name = "New Folder 3"
-    parent_folder_id = folder_id
+    global engine
 
-    drive_service = authenticate_with_google_drive(json_keyfile_path, scopes)
+    db_ref = get_json_file_content()
+    
+    # folder_id = "https://drive.google.com/drive/folders/1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
+    # folder_id = "1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
+    index = db_ref["months"].index(year_month)
+    folder_id = db_ref["months_details"][index][year_month]["folder_details"]["id"]
+
+    # new_folder_name = year_month
+
     new_file_name = f'{pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()) :%Y-%m-%d %H:%M:%S}'
     # new_file_name = str(pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()))
-    response = upload_to_google_drive(local_file_path, folder_id, new_file_name, drive_service)
+    response = upload_to_google_drive(folder_id, new_file_name)
     
     flash("Upload Sucessfull!")
     flash(f"Uploaded file details: {response}")
 
-    db_ref = get_json_file_content()
-    save_to_json_file(db_ref, response)
+    save_to_json_file(db_ref, response, details_of="file")
     if is_empthy:
         return
     return redirect(url_for("read_transactions"))
@@ -188,15 +189,19 @@ def create_this_month_database():
         
     year_month = f'{pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()) :%Y-%m}'
     # print("Year_Month:", year_month)
-    monthly_new_db_file_path = f"sqlite:///..//Data Base//Test//{year_month}.db"
+    monthly_new_db_file_path = f"sqlite:///..//Data Base//Production//{year_month}.db"
+    # monthly_new_db_file_path = "sqlite:///..//Data Base//Production//finance_database.db"
     
     db_ref = get_json_file_content()
 
     flash(f"Json_file_content: {db_ref}")
     # flash(f"year_month's value: {year_month} and its type is {type(year_month)}")
-    if year_month not in db_ref:
+    if year_month not in db_ref["months"]:
         print(f"Trying to create DB for: {year_month}")
         create_new_database(monthly_new_db_file_path)
+        response = create_folder(year_month, parent_folder_id)
+
+        save_to_json_file(db_ref, response, details_of="folder")
         
         flash(f"Sucessfully Created New Database for month: {year_month}!")
     else:
