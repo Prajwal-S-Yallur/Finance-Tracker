@@ -11,7 +11,7 @@ from modules.sync_to_google_drive import upload_to_google_drive, create_folder
 from modules.SetupDB import Finance
 from modules.SetupDB import create_new_database
 from modules.update_json_file import get_json_file_content, save_to_json_file
-from modules.config import year_month, parent_folder_id
+from modules.config import year, year_month, parent_folder_id, backup_folder_id
 
 # Connect to the database
 engine = create_engine("sqlite:///..//Data Base//Proudction//finance_database.db")
@@ -165,15 +165,23 @@ def update_cloud_database(is_empthy=False):
     
     # folder_id = "https://drive.google.com/drive/folders/1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
     # folder_id = "1-q568zpzep_tX-kkdOJrnpYVjQ7nJyj0"  # Replace with the actual folder ID
-    index = db_ref["months"].index(year_month)
-    folder_id = db_ref["months_details"][index][year_month]["folder_details"]["id"]
+
+    index = db_ref["years"].index(year)
+    folder_ids = db_ref["year_folder_id"][index][year]
+
+    if year_month in db_ref['months']:
+        index = db_ref["months"].index(year_month)
+        file_id = db_ref["months_details"][index][year_month]["file_details"]['id']
+    else:
+        file_id = None
 
     # new_folder_name = year_month
 
-    new_file_name = f'{pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()) :%Y-%m-%d %H:%M:%S}'
+    backup_file_name = f'{pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()) :%Y-%m-%d %H:%M:%S}'
     # new_file_name = str(pytz.timezone("Asia/Kolkata").localize(datetime.datetime.now()))
-    response = upload_to_google_drive(folder_id, new_file_name)
-    
+    response = upload_to_google_drive(folder_ids['production']['id'], year_month, file_id)
+    upload_to_google_drive(folder_ids['backup']['id'], backup_file_name)
+
     flash("Upload Sucessfull!")
     flash(f"Uploaded file details: {response}")
 
@@ -196,12 +204,20 @@ def create_this_month_database():
 
     flash(f"Json_file_content: {db_ref}")
     # flash(f"year_month's value: {year_month} and its type is {type(year_month)}")
+
+    if year not in db_ref["years"]:
+        print(f"Trying to create a Folder for: {year_month}")
+        prod_response = create_folder(year, parent_folder_id)
+        backup_response = create_folder(year, backup_folder_id)
+        response = {'production': prod_response, 'backup': backup_response}
+        save_to_json_file(db_ref, response, details_of="folder")
+
     if year_month not in db_ref["months"]:
         print(f"Trying to create DB for: {year_month}")
         create_new_database(monthly_new_db_file_path)
-        response = create_folder(year_month, parent_folder_id)
+        # response = create_folder(year_month, parent_folder_id)
 
-        save_to_json_file(db_ref, response, details_of="folder")
+        # save_to_json_file(db_ref, response, details_of="folder")
         
         flash(f"Sucessfully Created New Database for month: {year_month}!")
     else:

@@ -12,7 +12,7 @@ def authenticate_with_google_drive():
     return drive_service
 
 
-def upload_to_google_drive(folder_id, new_file_name):
+def upload_to_google_drive(folder_id, new_file_name, file_id=None):
     drive_service = authenticate_with_google_drive()
     media_body = MediaFileUpload(local_db_path, resumable=True)
     file_metadata = {
@@ -20,10 +20,17 @@ def upload_to_google_drive(folder_id, new_file_name):
         'parents': [folder_id]
     }
 
-    file_result = drive_service.files().create(
-        body=file_metadata,
-        media_body=media_body
-    ).execute()
+    if file_id:
+        file_result = drive_service.files().update(
+            fileId=file_id, 
+            media_body=media_body
+        ).execute()
+    else:
+        file_result = drive_service.files().create(
+            body=file_metadata,
+            media_body=media_body
+        ).execute()
+
 
     return file_result
 
