@@ -1,0 +1,34 @@
+{
+    "months": [
+        "2023-11",
+        "2024-09"
+    ],
+    "months_details": [
+        {
+            "2023-11": {
+                "folder_details": {
+                    "id": "1HPgvTkmwHN96QUZPRESe8SAM9fMtDQ33"
+                },
+                "file_details": {
+                    "kind": "drive#file",
+                    "id": "19u18XNV96fJyTU9QP4HumdvU55d6jNWN",
+                    "name": "2023-11-18 17:22:05.db",
+                    "mimeType": "application/octet-stream"
+                }
+            }
+        },
+        {
+            "2024-09": {
+                "folder_details": {
+                    "id": "19SGmF-3IKe6M2JxJr9RZ1OI5qB0e0uxf"
+                },
+                "file_details": {
+                    "kind": "drive#file",
+                    "id": "1LkeIy9Arjf1iHb0_zuBJ1N9EWpbdDZOy",
+                    "name": "2024-09-01 06:26:34.db",
+                    "mimeType": "application/octet-stream"
+                }
+            }
+        }
+    ]
+}

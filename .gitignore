@@ -1,3 +1,12 @@
 # Ignoring databases
 /FinanceDB/*.db
 /FinanceDB/__pycache__
+
+# GCP Service Account Keys
+GCP_Service_Account_Key_my_third_account.json
+
+#Ignoreing py-cache
+*/__pycache__
+
+#Ignoreing db lookup
+database_lookup.json
